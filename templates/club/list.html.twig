@@ -1,0 +1,75 @@
+<style>
+    table {
+border: medium solid #000000;
+width: 50%;
+}
+td, th {
+border: thin solid #6495ed;
+width: 50%;
+}
+</style>
+
+<table>
+   <tr>
+    <th>Réference</th>
+    <th>Titre</th>
+    <th>Description</th>
+    <th>Date Debut</th>
+    <th>Date fin</th>
+    <th>Nb participants</th>
+    
+   </tr>
+
+   {% for f in formations %}
+   <tr>
+       <td>{{f.ref}}</td>
+       <td>{{f.Titre|upper}}</td>
+       <td>{{f.Description}}</td>
+       <td>{{f.date_debut}}</td>
+       <td>{{f.date_fin}}</td>
+       <td>{{f.nb_participants}}</td>
+       <td>
+        {% if f.nb_participants == 0 %}
+          <button> <a href="{{path('app_titre')}}"></a>Participer</button>
+        {% endif %}
+       </td>
+
+      
+
+   </tr>
+   {% endfor %}
+  
+
+</table>
+<p>Nb des formations : {{ formations|length }}</p>
+
+<p>Formations theorique : </p>
+
+<ul>
+    {% for f in formations %}
+      {% if f.Description == 'formation theorique' %}
+          <li>{{ f.Titre}}</li>
+      {% endif %}
+    {% endfor %}
+</ul>   
+
+{% set titref= null %}
+{% set maxp =0 %}
+{% for f in formations %}
+   {% if f.nb_participants > maxp %}
+      {% set titref = f %}
+      {% set maxp = f.nb_participants %}
+   {% endif %}
+{% endfor %}
+<p> la formation ayant le plus grand nombre de participants est {{ titref.Titre|upper }} </p>
+
+
+
+{% set totalp = 0 %}
+{% for f in formations %}
+  {% set totalp = totalp + f.nb_participants  %} 
+{% endfor %}
+<p>le nombre total des participants est : {{ totalp }}</p>
+
+
+
